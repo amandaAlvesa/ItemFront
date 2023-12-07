@@ -15,7 +15,7 @@ export function useItemData(){
         queryKey: ['item-data'],
         retry: 2
     })
-
+    
     return{
         ...query,
         data: query.data?.data

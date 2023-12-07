@@ -1,5 +1,5 @@
 export interface itemData{
-    id: number,
+    id?: number,
     produto:string,
     quantidade:number,
     dataComprada:number,
