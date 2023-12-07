@@ -17,7 +17,7 @@ function App() {
       <div className="card-grid">
         {data?.map(itemData => 
           <Card 
-          produto={itemData.produto} 
+            produto={itemData.produto} 
             categoria={itemData.categoria}
             quantidade={itemData.quantidade} 
             dataComprada={itemData.dataComprada} 

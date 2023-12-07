@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import { useItemDataMutate } from "../hooks/useItemDataMutate";
 import { itemData } from "../inteface/itemData";
 import './modal.css'
+
 interface InputProps{
     label:string,
     value:string | number,
     updateValue(value:any):void
 }
+
 
 interface ModalProps{
     closeModal():void
@@ -54,10 +56,15 @@ export function CreateModal({closeModal}:ModalProps){
                 <Input label="Quantidade" value={quantidade} updateValue={setQuantidade}></Input>
                 <Input label="Data Comprada" value={dataComprada} updateValue={setDataComprada}></Input>
                 <Input label="Data de Vencimento" value={dataVencimento} updateValue={setDataVencimento}></Input>
-                <Input label="Categoria" value={categoria} updateValue={setCategoria}></Input>
+                <label>Categoria</label>
+                <select name="categoria" value={categoria} onChange={texto => setCategoria(texto.target.value)}>
+                    <option>LIMPEZA</option>
+                    <option>ALIMENTO_PERECIVEL</option>
+                    <option>ALIMENTO_NAO_PERECIVEL</option>
+                    </select>
                 </form>
                 <button onClick={submit} className="btn-secondary">Adicionar</button>
-            </div>
+            </div> 
         </div>
     )
 }
