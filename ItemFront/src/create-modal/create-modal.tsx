@@ -3,7 +3,6 @@ import { useItemDataMutate } from "../hooks/useItemDataMutate";
 import { itemData } from "../inteface/itemData";
 import './modal.css'
 import DatePicker from "react-datepicker";
-import { FaRegCalendarCheck } from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css'
 
 
@@ -73,7 +72,8 @@ export function CreateModal({closeModal}:ModalProps){
                     <option>LIMPEZA</option>
                     <option>ALIMENTO_PERECIVEL</option>
                     <option>ALIMENTO_NAO_PERECIVEL</option>
-                    </select><br/><br/>
+                    </select>
+<br/>
                     <label>Quantidade</label>
 <br/>
                 <select name="quantidade" value={quantidade} onChange={quantidade => setQuantidade(quantidade.target.value)}>
