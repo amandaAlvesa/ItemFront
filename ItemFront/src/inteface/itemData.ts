@@ -1,8 +1,8 @@
 export interface itemData{
     id?: number,
     produto:string,
-    quantidade:number,
-    dataComprada:number,
-    dataVencimento:number,
+    quantidade:string,
+    dataComprada:Date,
+    dataVencimento:Date,
     categoria:string
 }
