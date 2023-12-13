@@ -1,6 +1,7 @@
 import './card.css'
 
-interface CardProps{
+
+interface CardPropsEditar{
     produto:string,
     quantidade:string,
     dataComprada:Date,
@@ -8,7 +9,29 @@ interface CardProps{
     categoria:string
 }
 
-export function Card({ produto, quantidade, dataComprada, dataVencimento, categoria} : CardProps) {
+interface CardProps{
+    produto:string,
+    quantidade:string,
+    dataVencimento:Date
+    imagem:string
+}
+
+export function Card({ produto, quantidade, dataVencimento, imagem} : CardProps){
+  const dataVencimentoFormatar = new Date(dataVencimento);
+  const dataFormatadaVencimento = dataVencimentoFormatar.toLocaleDateString('pt-BR', {
+    timeZone: 'UTC',
+  });
+
+  return(
+      <div className="card" style={{ backgroundImage: `url(${imagem})` }}> 
+        <h3>{produto}</h3>
+        <h3>Quantidade: {quantidade}</h3>
+        <h3>Vencimento: {dataFormatadaVencimento}</h3>
+      </div>    
+  )
+}
+
+export function CardEditar({ produto, quantidade, dataComprada, dataVencimento, categoria} : CardPropsEditar) {
   const dataCompraFormatar = new Date(dataComprada);
   const dataFormatadaCompra = dataCompraFormatar.toLocaleDateString('pt-BR', {
    timeZone: 'UTC',
@@ -20,7 +43,8 @@ export function Card({ produto, quantidade, dataComprada, dataVencimento, catego
   });
 
   return (
-    <div className="card">
+    
+    <div className="card_editar">
          <h3>{produto}</h3>
         <h3>{quantidade}</h3>
         <h3>{dataFormatadaCompra} - {dataFormatadaVencimento}</h3>

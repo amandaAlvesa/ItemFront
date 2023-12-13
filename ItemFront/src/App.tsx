@@ -17,14 +17,18 @@ function App() {
 
       <div className="card-grid">
         {data?.map(itemData => 
+        <div className='card-unico'>
           <Card 
+            imagem={itemData.imagem}
             produto={itemData.produto} 
-            categoria={itemData.categoria}
             quantidade={itemData.quantidade} 
-            dataComprada={itemData.dataComprada} 
             dataVencimento={itemData.dataVencimento} 
-          />)}
+          /> 
+          </div>
+          ) 
+        }
       </div>
+      
       {isModalOpen && <CreateModal closeModal={handleOpenModal} />}
       <button onClick={handleOpenModal} >Adicionar Novo Item</button>
     </div>

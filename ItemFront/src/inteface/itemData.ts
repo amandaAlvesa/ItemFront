@@ -4,5 +4,6 @@ export interface itemData{
     quantidade:string,
     dataComprada:Date,
     dataVencimento:Date,
-    categoria:string
+    categoria:string,
+    imagem:string
 }

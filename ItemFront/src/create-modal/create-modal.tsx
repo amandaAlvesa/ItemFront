@@ -5,7 +5,6 @@ import './modal.css'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
 
-
 interface InputProps{
     label:string,
     value:string | number,
