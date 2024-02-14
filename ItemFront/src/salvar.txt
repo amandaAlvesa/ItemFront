@@ -1,0 +1,716 @@
+
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
+
+export default function CardEditar() {
+
+  
+
+  const {id}=useParams();
+
+  const [item,setItem]= useState({
+    produto:"",
+    quantidade:"",
+    categoria:"",
+  });
+  
+  const{produto,quantidade,categoria} = item;
+  
+
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
+      e.preventDefault();
+      await axios.put(`http://localhost:1002/item/modificar/${id}`,item);
+  }
+
+  const loadUser = async () =>{
+       const result= await axios.get(`http://localhost:1002/item/pegarItem/${id}`)
+       setItem(result.data)
+  } 
+   
+  useEffect(() => {
+      loadUser();
+  },[])
+
+  interface InputProps{
+    label:string,
+    value:string | number,
+    updateValue(value:any):void
+    classname:string
+}
+
+  const Input = ({label, value, updateValue, classname}: InputProps) => {
+    return(
+        <>
+        <label>{label}</label>
+        <input className={classname} value={value} onChange={evento => updateValue(evento.target.value)} defaultValue={item.produto}></input>
+        </>
+    )
+}
+    return (
+
+      <div className="card_editar" >
+              <div className="modal-body">
+                  <form className="input-container" onSubmit={(e) =>onSubmit(e)}>
+                  <div className="mb-3">                      
+                        <Input  classname='form-label' label="Produto" value={produto} updateValue={setItem}></Input>
+                    </div>
+
+  <br/>
+                  <label>Categoria</label>
+  <br/>
+                  <select name="categoria" value={categoria} onChange={escolha => escolha && setItem}>
+                    <option>{categoria}</option>
+                      <option>LIMPEZA</option>
+                      <option>ALIMENTO_PERECIVEL</option>
+                      <option>ALIMENTO_NAO_PERECIVEL</option>
+                      </select>
+  <br/>
+
+                      <label>Quantidade</label>
+  <br/>
+                  <select name="quantidade" value={quantidade} onChange={quantos => quantos && setItem}>
+                    <option>{quantidade}</option>
+                      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                      <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                      <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                      <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option>
+                  </select>
+               <button onClick={()=>onSubmit} className="btn-secondary">Feito</button>
+               <Link className='btn btn-outline-danger mx-2' to={"/"}>Cancelar</Link>
+
+                  </form>
+                  
+              </div>
+      </div>
+    )
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  import { useEffect, useState } from "react"
+import { useItemDataMutate } from "../../hooks/useItemDataMutate";
+import { itemData } from "../../inteface/itemData";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
+import { useItemData } from "../../hooks/useItemData";
+
+
+
+export function CardEditar(){
+
+    const[produto, setProduto] =useState("");
+    const[quantidade, setQuantidade] =useState("");
+    const[dataComprada, setDataComprada] =useState(new Date());
+    const[dataVencimento, setDataVencimento] =useState(new Date());
+    const[categoria, setCategoria] =useState("");
+    const{mutate, isSuccess} = useItemDataMutate();
+
+    const submit = () => {
+        const itemData: itemData = {
+            produto,
+            quantidade,
+            dataComprada,
+            dataVencimento,
+            categoria,
+            imagem: ""
+        }
+        mutate(itemData)
+    }
+
+    useEffect(()=>{
+        if(!isSuccess) return
+    },[isSuccess])
+    
+  const {data} = useItemData();
+
+    return(
+        <div className="modal-overlay">
+            <div className="modal-body">
+                <form className="input-container">
+
+     
+                <label htmlFor='Produto' className='form-label'>Produto</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            name='name'
+                            value={produto}
+                            onChange={evento => setProduto(evento.target.value)} 
+                        >{data?.map(itemData => itemData.produto)}</input> 
+                
+<br/>
+ 
+                <label>Data Da Compra</label>
+<br/>
+                <DatePicker  selected={dataComprada} onChange={compra => compra && setDataComprada(compra)}/>
+<br/>
+                <label>Data de Vencimento</label>
+<br/>
+                <DatePicker selected={dataVencimento} onChange={vencimento => vencimento && setDataVencimento(vencimento)} />
+<br/>
+
+                <label>Categoria</label>
+<br/>
+                <select name="categoria" value={categoria} onChange={texto => setCategoria(texto.target.value)}>
+                    <option>ALIMENTO_PERECIVEL</option>
+                    <option>ALIMENTO_NAO_PERECIVEL</option>
+                </select>
+<br/>
+                    <label>Quantidade</label>
+<br/>
+                <select name="quantidade" value={quantidade} onChange={quantidade => setQuantidade(quantidade.target.value)}>
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                    <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option>
+                </select>
+             <button onClick={submit} className="btn-secondary">Adicionar</button>
+                </form>
+                
+            </div> 
+        </div>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE
+import axios from 'axios';
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { ItemDataEditar } from '../../inteface/itemDataEditar';
+
+export default function CardEditar() {
+
+  const navigate = useNavigate();
+
+  const {id}=useParams();
+
+  const [item,setItem]= useState({
+    produto:"",
+    quantidade:"",
+    categoria:"",
+  });
+  
+  const{produto,quantidade,categoria} = item;
+  
+  const submit = async () => {
+    const itemDataEditarPronto: ItemDataEditar = {
+      produto,
+      quantidade,
+      categoria,
+    }
+    await axios.put(`http://localhost:1002/item/modificar/${id}`,itemDataEditarPronto);
+    navigate("/")
+}
+
+  const loadUser = async () =>{
+       const result= await axios.get(`http://localhost:1002/item/pegarItem/${id}`)
+       setItem(result.data)
+  } 
+   
+  useEffect(() => {
+      loadUser();
+  },[])
+
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+    setItem({...item,[e.target.name]: e.target.value});
+};
+
+
+    return (
+
+      <div className="card_editar" >
+              <div className="modal-body">
+                  <form className="input-container" onSubmit={submit}>
+                  <div className="mb-3">                      
+                  <label htmlFor='Produto' className='form-label'>Produto</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            name='name'
+                            value={produto}
+                            onChange={(e)=>onInputChange((e))} 
+                        ></input>                     
+                    </div>
+
+  <br/>
+                  <label>Categoria</label>
+  <br/>
+                  <select name="categoria" value={categoria} onChange={escolha => escolha && setItem}>
+                    <option>{categoria}</option>
+                      <option>LIMPEZA</option>
+                      <option>ALIMENTO_PERECIVEL</option>
+                      <option>ALIMENTO_NAO_PERECIVEL</option>
+                      </select>
+  <br/>
+
+                      <label>Quantidade</label>
+  <br/>
+                  <select name="quantidade" value={quantidade} onChange={quantos => quantos && setItem}>
+                    <option>{quantidade}</option>
+                      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                      <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                      <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                      <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option>
+                  </select>
+               <button onClick={submit} className="btn-secondary">Feito</button>
+               <Link className='btn btn-outline-danger mx-2' to={"/"}>Cancelar</Link>
+
+                  </form>
+                  
+              </div>
+      </div>
+    )
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
+
+export function CardEditar() {
+
+  
+  const navigate = useNavigate();
+
+  const {id}=useParams();
+
+  const [item,setItem]= useState({
+    produto:"",
+    quantidade:"",
+    categoria:"",
+  });
+  
+  const{produto,quantidade,categoria,dataComprada,dataVencimento} = item;
+  
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
+      e.preventDefault();
+      await axios.post(`http://localhost:1002/item/${id}`,item);
+      navigate("/");
+  }
+
+  const loadUser = async () =>{
+       const result= await axios.get(`http://localhost:1002/item/${id}`)
+       setItem(result.data)
+  } 
+   
+  useEffect(() => {
+      loadUser();
+  },[])
+
+
+    return (
+
+      <div className="card_editar" >
+              <div className="modal-body">
+                  <form className="input-container" onSubmit={(e) =>onSubmit(e)}>
+                  <div className="mb-3">                      
+                  <label htmlFor='Produto' className='form-label'>Produto</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            name='name'
+                            value={produto}
+                            onChange={evento => evento && setItem} 
+                        ></input> </div>
+                
+<br/>
+
+                <label>Data Da Compra</label>
+<br/>
+                <DatePicker  selected={dataComprada} onChange={compra => compra && setItem(compra.getDate)}/>
+
+<br/>
+                <label>Data de Vencimento</label>
+<br/>
+                <DatePicker selected={dataVencimento} onChange={vencimento => vencimento && setItem} />
+<br/>
+
+                <label>Categoria</label>
+<br/>
+                <select name="categoria" value={categoria} onChange={texto => texto && setItem}>
+                    <option>ALIMENTO_PERECIVEL</option>
+                    <option>ALIMENTO_NAO_PERECIVEL</option>
+                </select>
+<br/>
+                    <label>Quantidade</label>
+<br/>
+                <select name="quantidade" value={quantidade} onChange={quantidade => quantidade && setItem}>
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                    <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option>
+                </select>                
+               <button onClick={()=>onSubmit} className="btn-secondary">Feito</button>
+               <Link className='btn btn-outline-danger mx-2' to={"/"}>Cancelar</Link>
+
+                  </form>
+                  
+              </div>
+      </div>
+    )
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------
+import { useEffect, useState } from "react"
+import { ItemDataEditar } from "../../inteface/itemDataEditar";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+
+
+
+export default function CardEditar(){
+
+  const {id}=useParams();
+
+  const navigate = useNavigate();
+
+  const[produto, setProduto] =useState("");
+  const[quantidade, setQuantidade] =useState("");
+  const[categoria, setCategoria] =useState("");
+
+
+
+const loadUser = async () =>{
+  const result= await axios.get(`http://localhost:1002/item/pegarItem/${id}`)
+  setProduto(result.data)
+}                                   
+const submit = async () => {
+        const itemDataEditarPronto: ItemDataEditar = {
+          produto,
+          quantidade,
+          categoria,
+        }
+        await axios.put(`http://localhost:1002/item/modificar/${id}`,itemDataEditarPronto);
+        navigate("/")
+    }
+
+    useEffect(()=>{
+        loadUser();
+      },[]);
+    
+      
+
+    return(
+        <div className="modal-overlay">
+            <div className="modal-body">
+                <form className="input-container">
+
+     
+                <label htmlFor='Produto' className='form-label'>Produto</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            name='name'
+                            value={produto}
+                            onChange={evento => setProduto(evento.target.value)} 
+                        ></input> 
+                
+<br/>
+                <label>Categoria</label>
+<br/>
+                <select name="categoria" value={categoria} onChange={texto => setCategoria(texto.target.value)}>
+                    <option>{quantidade}</option>
+                    <option>LIMPEZA</option>
+                    <option>ALIMENTO_PERECIVEL</option>
+                    <option>ALIMENTO_NAO_PERECIVEL</option>
+                </select>
+<br/>
+                    <label>Quantidade</label>
+<br/>
+                <select name="quantidade" value={quantidade} onChange={quantidade => setQuantidade(quantidade.target.value)}>
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                    <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option>
+                </select>
+             <button onClick={submit} className="btn-secondary">Adicionar</button>
+                </form>
+                
+            </div> 
+        </div>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------user-------------------
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
+export default function EditUser() {
+    
+    let navigate = useNavigate();
+
+    const {id}=useParams();
+
+    const [user,setUser]= useState({
+        name:"",
+        userName:"",
+        email:""
+    });
+    
+    const{name, userName, email} = user;
+    
+    const onInputChange = (e) =>{
+        setUser({...user,[e.target.name]: e.target.value});
+    };
+
+    const onSubmit = async (e) =>{
+        e.preventDefault();
+        await axios.put(`http://localhost:3434/user/${id}`,user);
+        navigate("/");
+    }
+
+    const loadUser = async (e) =>{
+         const result= await axios.get(`http://localhost:3434/user/${id}`)
+         setUser(result.data)
+    } 
+     
+    useEffect(() => {
+        loadUser();
+    },[])
+
+  return (
+    <div className="container">
+        <div className="row">
+            <div className="col-md-6 offset-md-3 bourder rounded p-4 mt-2 shadow">
+                <h2 className='text-center m-4'>Editar Usuarios</h2>
+
+                <form onSubmit={(e) =>onSubmit(e)}>
+                    <div className="mb-3">
+                        <label htmlFor='Name' className='form-label'>Nome</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            placeholder='Insira o Nome'
+                            name='name'
+                            value={name}
+                            onChange={(e)=>onInputChange((e))}
+                        />
+                    </div>
+                    
+                    <div className="mb-3">
+                        <label htmlFor='UserName' className='form-label'>Nome de Usuario</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            placeholder='Insira o Nome de Usuario'
+                            name='userName'
+                            value={userName}
+                            onChange={(e)=>onInputChange((e))}
+                        />
+                    </div>
+                    
+                    <div className="mb-3">
+                        <label htmlFor='Email' className='form-label'>Email</label>
+                        <input 
+                            type={'text'}
+                            className='form-control'
+                            placeholder='Insira o Email'
+                            name='email'
+                            value={email}
+                            onChange={(e)=>onInputChange((e))}
+                        />
+                    </div>
+
+                    <button className='btn btn-outline-success'>Editar</button>
+                    <Link className='btn btn-outline-danger mx-2' to={"/"}>Cancelar</Link>
+                </form>
+            </div>
+        </div>
+    </div>  
+  )
+}

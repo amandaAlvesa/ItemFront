@@ -11,7 +11,7 @@ const fetchData= async (): AxiosPromise<itemData[]> => {
 
 export function useItemData(){
     const query = useQuery({
-        queryFn: fetchData,
+        queryFn: fetchData, 
         queryKey: ['item-data'],
         retry: 2
     })

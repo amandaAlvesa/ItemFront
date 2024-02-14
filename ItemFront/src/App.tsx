@@ -1,37 +1,32 @@
-import { useState } from 'react';
 import './App.css'
-import { Card } from './components/card/card'
-import { useItemData } from './hooks/useItemData'
-import { CreateModal } from './create-modal/create-modal';
+import CardEditar from './components/card/cardEditar';
+import { Inicio } from './pages/inicio';
 
+import { Route, Routes, BrowserRouter as Router, useNavigate } from 'react-router-dom';
 
-function App() {
-  const {data} = useItemData();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
-    setIsModalOpen(prev => !prev)
-  }
+interface ContactProps {
+  path: string;
+}
+
+const Contact: React.FC<ContactProps> = ({ path }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="container">
-      <h1>Itens</h1>
-
-      <div className="card-grid">
-        {data?.map(itemData => 
-        <div className='card-unico'>
-          <Card 
-            imagem={itemData.imagem}
-            produto={itemData.produto} 
-            quantidade={itemData.quantidade} 
-            dataVencimento={itemData.dataVencimento} 
-          /> 
-          </div>
-          ) 
-        }
-      </div>
-      
-      {isModalOpen && <CreateModal closeModal={handleOpenModal} />}
-      <button onClick={handleOpenModal} >Adicionar Novo Item</button>
+    <div>
+      <h2>Página de Contato</h2>
+      <button onClick={() => navigate('/about')}>Ir para Sobre</button>
     </div>
+  );
+};
+function App() {
+
+  return (
+    <Router>
+        <Routes>
+          <Route path="/" element={<Inicio/>}></Route>
+          <Route path="/editar/:id" element={<CardEditar />}></Route>
+        </Routes>
+      </Router>   
   )
 }
 

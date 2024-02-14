@@ -40,7 +40,8 @@ export function CreateModal({closeModal}:ModalProps){
             quantidade,
             dataComprada,
             dataVencimento,
-            categoria
+            categoria,
+            imagem: ""
         }
         mutate(itemData)
     }
@@ -53,15 +54,18 @@ export function CreateModal({closeModal}:ModalProps){
     return(
         <div className="modal-overlay">
             <div className="modal-body">
+                
                 <form className="input-container">
+                
                 <Input label="Produto" value={produto} updateValue={setProduto}></Input>
 <br/>
 
                 <label>Data Da Compra</label>
 <br/>
-                <DatePicker  selected={dataComprada} onChange={compra => compra && setDataComprada(compra)}/>
+                <input type="date" onSelect={()=>dataComprada} onChange={c => c && setDataComprada}/>
 <br/>
                 <label>Data de Vencimento</label>
+<br/>
                 <DatePicker selected={dataVencimento} onChange={vencimento => vencimento && setDataVencimento(vencimento)} />
 <br/>
 
